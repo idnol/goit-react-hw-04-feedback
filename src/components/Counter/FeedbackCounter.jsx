@@ -9,7 +9,6 @@ export const FeedbackCounter = () => {
   const [bad, setBad] = useState(0);
 
   const handleFeedback = opt => {
-    console.log(opt);
     switch (opt) {
       case 'good':
         setGood(good + 1);
@@ -19,6 +18,8 @@ export const FeedbackCounter = () => {
         break;
       case 'bad':
         setBad(bad + 1);
+        break;
+      default:
         break;
     }
   }
