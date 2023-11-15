@@ -1,53 +1,57 @@
-import React, { Component } from "react";
+import { useState } from 'react';
 import { Statistics } from '../Statistics/Statistics';
 import { FeedbackOptions } from '../FeedbackOptions/FeedbackOptions';
 import { Section } from '../Section/Section';
 
-export class FeedbackCounter extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0
+export const FeedbackCounter = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const handleFeedback = opt => {
+    switch (opt) {
+      case 'good':
+        setGood(good + 1);
+        break;
+      case 'neutral':
+        setNeutral(neutral + 1);
+        break;
+      case 'bad':
+        setBad(bad + 1);
+        break;
+    }
   }
 
-  handleFeedback = opt => {
-    this.setState((state, props) => ({
-      [opt]: state[opt] + props.step,
-    }));
-
-  }
-  countTotalFeedback = (good, neutral, bad) => {
+  const countTotalFeedback = () => {
     return good + neutral + bad;
   };
 
-  countPositiveFeedbackPercentage = (good, total) => {
+  const countPositiveFeedbackPercentage = (good, total) => {
     return good > 0 ? Math.floor((good * 100) / total) : 0;
   };
 
+  return (
+    <div>
+      <Section
+        title="Please leave feedback"
+        children={<FeedbackOptions
+          options={['good', 'neutral', 'bad']}
+          onLeaveFeedback={handleFeedback}
+        />}
+      />
 
-  render() {
-    return (
-      <div>
-        <Section
-          title="Please leave feedback"
-          children={<FeedbackOptions
-            options={Object.keys(this.state)}
-            onLeaveFeedback={this.handleFeedback}
-          />}
-        />
+      <Section
+        title="Statistic"
+        children={<Statistics
+          good={good}
+          bad={bad}
+          neutral={neutral}
+          total={countTotalFeedback}
+          percent={countPositiveFeedbackPercentage}
+        />}
+      />
 
-        <Section
-          title="Statistic"
-          children={<Statistics
-            good={this.state.good}
-            bad={this.state.bad}
-            neutral={this.state.neutral}
-            total={this.countTotalFeedback}
-            percent={this.countPositiveFeedbackPercentage}
-          />}
-        />
+    </div>
+  );
 
-      </div>
-    );
-  }
 }

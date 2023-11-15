@@ -9,11 +9,12 @@ export const Buttons = styled.div`
 export const ButtonStyled = styled.button`
   border: none;
   border-radius: 5px;
-  background: blue;
+  background: #17178e;
   color: white;
   padding: 5px 15px;
   transition: 250ms ease-in;
   cursor: pointer;
+
   &:hover {
     background: blueviolet;
   }
